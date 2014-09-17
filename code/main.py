@@ -20,10 +20,14 @@ import numpy as np
 import scipy as sp
 import sys,os
 
-print ('path',os.path.abspath(os.path.dirname(sys.argv[0]))):
+print ('sys.argv[0]',sys.argv[0])
 
-#curdir = os.path.abspath(os.path.dirname(__file__))
-#print(curdir)
+curdir = os.path.dirname(os.path.realpath(sys.argv[0]))
+print('currentdir',curdir)
+
+workdir = os.getcwd()
+
+print ('workdir',workdir)
 
 #@@@@@@@@@@@@@@@@@@@@@@@
 #2 import raw data and prep working dataset
