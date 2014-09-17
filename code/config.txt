@@ -1,0 +1,4 @@
+ref,source
+working_dir,"H:/Academic Projects/Global Health"
+rawwhom_dir,"../Data Files/WHO/mortality database"
+out,"/output"
