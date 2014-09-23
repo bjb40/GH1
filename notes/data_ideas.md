@@ -45,5 +45,26 @@ Some other thoughts:
 
 In addition, he suggested that there may be some Carribean nations that would be useful to review. Note that many of these middle-income countries listed above are in Central America, near the Carribean (along with Puerto Rico). A nice map is available [here](http://www.nationsonline.org/oneworld/map/central_america_map2.htm#).
 
+The list below identifies years of mortality data available form [WHO mortality database](http://www.who.int/healthinfo/statistics/mortality_rawdata/en/)
+
+Country                   Years Available    ICD Transition Years                       WHO Country Number
+----------------------    -----------------  ------------------------------------   ----------------------
+**Central America**                                                                                    
+*Mexico*                    1955-2010          7:1955 8:1968 9:1979 10:1998                          2310
+*Belize*                    1964-2009          7:1964 8:1968 9:1980                                  2045	
+*Guatemala*                 1958-2008          7:1958 8:1969 9:1979 10:2005                          2250
+Honduras                  1966-1990          7:1966 8:1968 9:1979                                  2280 
+El Salvador               1950-2009          7:1950 8:1968 9:1981 10:1997                          2190
+Nicaragua                 1959-2011          7:1959 8:1968 9:1988 10:1997                          2340
+Costa Rica                1956-2011          7:1956 8:1968 9:1980 10:1997                          2140
+**Carribean**
+*Cuba*                      1959-2010          7:1959 8:1968 9:1979 10:2001                          2150
+*Jamaica*                   1960-2006          7:1960 8:1968 9:1980 10:2000                          2290
+Haiti                     1980-83,97-03      9:1980 10:1997                                        2270
+Dominican Republic        1956-2010          7:1956 8:1968 9:1980 10:1996                          2170          
+Bahamas                   1969-2008          8:1969 9:1980 10:1999                                 2030
+
+Table: Note that many of the coutnries use different ICD sublists from this grouping--italics represent countries most interested in.
+
 #Final Thoughts#
 I'll take alook at Central America and the Carribean generally; then pick a country or two that look interesting in terms of CVD/Diabetes and/or trends.
