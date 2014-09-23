@@ -73,21 +73,26 @@ icd9zip = zipfile.ZipFile(dirs["rawdat"] + "/morticd09.zip")
 icd9raw = icd9zip.open('Morticd9','rU')
 
 icd9sub = []
-
-counter = 0
 for row in csv.DictReader(icd9raw):
-
-    counter += 1
-#    if counter < 10000:
     for i in countries:
         if int(row["Country"]) == int(countries[i]):
             icd9sub.append(row)
 
+#Load ICD-10 data for countries
 
-for row in icd9sub:
-    print(row["Admin1"],row["SubDiv"])
+#@@@@@@@@@@@@@@@@@@@
+#TO BE DONE SHORTLY
+#@@@@@@@@@@@@@@@@@@@
 
 
+
+#Load population data
+popzip = zipfile.ZipFile(dirs["rawdat"] + "/Pop.zip")
+popraw = popzip.open('pop','rU')
+
+popsub = 
+
+#put them all together and calculate rates
 
 
 #@@@@@@@@@@@@@@@@@@@@@@@
