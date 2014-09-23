@@ -68,20 +68,24 @@ countries = {
 #Load in ICD-9 data for each of the countries listed above
 print "Loading data from '" + dirs["rawdat"] + "'."
 
-#unzip file
+#unzip file and read csv
 icd9zip = zipfile.ZipFile(dirs["rawdat"] + "/morticd09.zip")
-icd9raw = io.TextIOWRapper(io.BytesIO(icd9zip.read(icd9zip.namelist()[0])))
+icd9raw = icd9zip.open('Morticd9','rU')
 
-#THERE IS A PROBLEM WITH THE WAY YOU ARE READING THE ZIP FILE
+icd9sub = []
 
 counter = 0
-with open(icd9raw,'r') as csvfile:
-    for row in csv.reader(csvfile):
-        counter += 1
+for row in csv.DictReader(icd9raw):
 
-print counter + " lines."
+    counter += 1
+#    if counter < 10000:
+    for i in countries:
+        if int(row["Country"]) == int(countries[i]):
+            icd9sub.append(row)
 
-#read as csv
+
+for row in icd9sub:
+    print(row["Admin1"],row["SubDiv"])
 
 
 
