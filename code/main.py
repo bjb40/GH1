@@ -72,11 +72,12 @@ print "Loading data from '" + dirs["rawdat"] + "'."
 icd9zip = zipfile.ZipFile(dirs["rawdat"] + "/morticd09.zip")
 icd9raw = icd9zip.open('Morticd9','rU')
 
-icd9sub = []
-for row in csv.DictReader(icd9raw):
-    for i in countries:
-        if int(row["Country"]) == int(countries[i]):
-            icd9sub.append(row)
+icd9 = np.array((5,),dtype=['var1','var2','var3','var4','var5'])
+
+#for row in csv.DictReader(icd9raw):
+#    for i in countries:
+#        if int(row["Country"]) == int(countries[i]):
+#            icd9sub.append(row)
 
 #Load ICD-10 data for countries
 
