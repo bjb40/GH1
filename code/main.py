@@ -90,7 +90,7 @@ for row in csv.DictReader(icd9raw):
 popzip = zipfile.ZipFile(dirs["rawdat"] + "/Pop.zip")
 popraw = popzip.open('pop','rU')
 
-popsub = 
+popsub = []
 
 #put them all together and calculate rates
 
