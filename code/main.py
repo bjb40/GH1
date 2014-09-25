@@ -50,18 +50,18 @@ else:
 # select countries and country number
     
 countries = {
-"Mexico":2310,
+#"Mexico":2310,
 "Belize":2045,
 "Guatemala":2250,
 #"Honduras":2280, 
 #"El Salvador":2190,
 #"Nicaragua":2340,
 #"Costa Rica":2140,
-"Cuba":2150,
-"Jamaica":2290,
+#"Cuba":2150,
+#"Jamaica":2290,
 #"Haiti":2270,
 #"Dominican Republic":2170,          
-"Bahamas":2030
+#"Bahamas":2030
 }
 
 
@@ -72,12 +72,11 @@ print "Loading data from '" + dirs["rawdat"] + "'."
 icd9zip = zipfile.ZipFile(dirs["rawdat"] + "/morticd09.zip")
 icd9raw = icd9zip.open('Morticd9','rU')
 
-icd9 = np.array((5,),dtype=['var1','var2','var3','var4','var5'])
-
-#for row in csv.DictReader(icd9raw):
-#    for i in countries:
-#        if int(row["Country"]) == int(countries[i]):
-#            icd9sub.append(row)
+icd9sub = []
+for row in csv.DictReader(icd9raw):
+    for i in countries:
+        if int(row["Country"]) == int(countries[i]):
+            icd9sub.append(row)
 
 #Load ICD-10 data for countries
 
@@ -85,13 +84,15 @@ icd9 = np.array((5,),dtype=['var1','var2','var3','var4','var5'])
 #TO BE DONE SHORTLY
 #@@@@@@@@@@@@@@@@@@@
 
-
-
 #Load population data
 popzip = zipfile.ZipFile(dirs["rawdat"] + "/Pop.zip")
 popraw = popzip.open('pop','rU')
 
 popsub = []
+for row in csv.DictReader(popraw):
+    for i in countries:
+        if int(row["Country"]) == int(countries[i]):
+            popsub.append(row)
 
 #put them all together and calculate rates
 

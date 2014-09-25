@@ -66,5 +66,12 @@ Bahamas                   1969-2008          8:1969 9:1980 10:1999              
 
 Table: Note that many of the coutnries use different ICD sublists from this grouping--italics represent countries most interested in.
 
+
+3. There is also a large data repository by WHO, World Bank, and other organizations available at [http://catalog.ihsn.org/index.php/catalog](http://catalog.ihsn.org/index.php/catalog).
+
+4. Another interesting set is the [global health data exchange](http://ghdx.healthdata.org/). This also includes "scientific literature", though it appears to be very select.
+
+5. A number of studies appear to be collected under the auspices of the [Pan American Health Organization](http://www.paho.org/hq/).
+
 #Final Thoughts#
 I'll take alook at Central America and the Carribean generally; then pick a country or two that look interesting in terms of CVD/Diabetes and/or trends.
