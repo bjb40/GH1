@@ -72,11 +72,22 @@ print "Loading data from '" + dirs["rawdat"] + "'."
 icd9zip = zipfile.ZipFile(dirs["rawdat"] + "/morticd09.zip")
 icd9raw = icd9zip.open('Morticd9','rU')
 
+icd9allcause = []
 icd9sub = []
 for row in csv.DictReader(icd9raw):
     for i in countries:
         if int(row["Country"]) == int(countries[i]):
+            row["Country_Name"] = i
             icd9sub.append(row)
+            #tabulate causes
+            if row["Cause"] == "B00":
+                icd9allcause.append(row)
+
+print (len(icd9allcause), len(icd9sub))
+
+# icd9 Basic tabulation keys for cause
+#B00 = all causes
+#
 
 #Load ICD-10 data for countries
 
