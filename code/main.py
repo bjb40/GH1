@@ -83,11 +83,34 @@ for row in csv.DictReader(icd9raw):
             if row["Cause"] == "B00":
                 icd9allcause.append(row)
 
-print (len(icd9allcause), len(icd9sub))
+#print (len(icd9allcause), len(icd9sub))
 
 # icd9 Basic tabulation keys for cause
 #B00 = all causes
-#
+'''
+Heart Diseases
+B26	401-405	Hypertensive disease
+   B260	402, 404	Hypertensive heart disease
+   B269		Remainder of B26
+B27	410-414	Ischaemic heart disease
+   B270	410	Acute myocardial infarction
+   B279		Remainder of B27
+B28	415-429	Diseases of pulmonary circulation and other forms of heart disease
+   B280	415.1	Pulmonary embolism
+   B281	427	Cardiac dysrhythmias
+   B289		Remainder of B28
+B29	430-438	Cerebrovascular disease
+   B290	430	Subarachnoid haemorrhage 
+   B291	431, 432	Intracerebral and other intracranial haemorrhage
+   B292	433, 434	Cerebral infarction
+   B293	436	Acute but ill-defined cerebrovascular disease
+   B294	437.0	Cerebral atherosclerosis
+   B299		Remainder of B29
+B30	440-459	Other diseases of the circulatory system
+   B300	440	Atherosclerosis
+   B301	444	Arterial embolism and thrombosis
+   B302	441-443, 446-448	Other diseases of arteries, arterioles and capillaries
+'''
 
 #Load ICD-10 data for countries
 
@@ -104,6 +127,8 @@ for row in csv.DictReader(popraw):
     for i in countries:
         if int(row["Country"]) == int(countries[i]):
             popsub.append(row)
+
+print popsub[1].keys()
 
 #put them all together and calculate rates
 
