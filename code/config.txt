@@ -1,0 +1,3 @@
+work,"H:/Academic Projects/Global Health"
+rawdat,"H:/Academic Projects/Data Files/WHO/mortality database"
+output,"H:/Academic Projects/Global Health/output"
