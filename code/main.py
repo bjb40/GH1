@@ -195,14 +195,30 @@ for n in icd9cvd:
                 temp["65-69 Mx"] = rate(n["Deaths19"],d["Pop19"])
                 temp["70-74 Mx"] = rate(n["Deaths20"],d["Pop20"])
                 temp["75+ Mx"] = rate(temp["DeathsLAST"],temp["PopLAST"])
+ #           keepvals = n.update(d)
  #           if re.search(r"Deaths|Pop",)
             dat.append(temp)
             break
 
-#write data to csv
-for i in dat:
-    print (i["DeathsLAST"],i["PopLAST"])
+outf = dirs["output"] + "/datfile.csv"
+#write rates to csv
+fnames = dat[0].keys()
+with open(outf,"wb") as f:
+    writer = csv.DictWriter(f ,delimiter=',',  fieldnames = fnames)
+    writer.writeheader()
+    for row in dat:
+        writer.writerow(row)
+f.close()
 
 #@@@@@@@@@@@@@@@@@@@@@@@
 #3 Analyze data from working dataset (can be used solely from import)
 #@@@@@@@@@@@@@@@@@@@@@@@
+
+#import plotly.plotly as py
+#from plotly.graph_objs import *
+#py.sign_in("bjb40", "7qygb7f3k8")
+
+dat = np.genfromtxt(outf,delimiter=",", names=True)
+subdat = dat[dat["Male"] == 1]
+
+
