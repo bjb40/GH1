@@ -20,6 +20,9 @@ import csv, sys, os, zipfile, re
 import pandas as pd
 import numpy as np
 import scipy as sp
+import plotly.plotly as py
+from plotly.graph_objs import *
+
 
 print str(locals()['__doc__'])
 
@@ -182,6 +185,7 @@ for n in icd9cvd:
             if int(n["Frmat"]) < 4 and int(d["Frmat"]) < 4: 
                 temp["DeathsLAST"] = sumcells([n["Deaths21"],n["Deaths22"],n["Deaths23"],n["Deaths24"],n["Deaths25"]])
                 temp["PopLAST"] = sumcells([d["Pop21"],d["Pop22"],d["Pop23"],d["Pop24"],d["Pop25"]])
+                temp["Cause"] = n["Cause"]
                 temp["15-19 Mx"] = rate(n["Deaths9"],d["Pop9"])
                 temp["20-24 Mx"] = rate(n["Deaths10"],d["Pop10"])
                 temp["25-29 Mx"] = rate(n["Deaths11"],d["Pop11"])
@@ -214,11 +218,21 @@ f.close()
 #3 Analyze data from working dataset (can be used solely from import)
 #@@@@@@@@@@@@@@@@@@@@@@@
 
-#import plotly.plotly as py
-#from plotly.graph_objs import *
-#py.sign_in("bjb40", "7qygb7f3k8")
+pw = str(raw_input("Plot.ly sign in key: "))
+py.sign_in("bjb40", pw)
 
-dat = np.genfromtxt(outf,delimiter=",", names=True)
+dat = np.genfromtxt(outf,delimiter=",", names=True, dtype=None)
 subdat = dat[dat["Male"] == 1]
+subdat2 = subdat[subdat["Country"] == 2045]
+
+print subdat2["Cause"]
+
+Mx = Scatter(
+    y=subdat2["6064_Mx"],
+    x=subdat["Year"]
+)
 
 
+data = Data([Mx])
+
+plot_url = py.plot(data, filename='Mx', world_readable=False)
