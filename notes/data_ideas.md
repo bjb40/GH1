@@ -73,5 +73,7 @@ Table: Note that many of the coutnries use different ICD sublists from this grou
 
 5. A number of studies appear to be collected under the auspices of the [Pan American Health Organization](http://www.paho.org/hq/).
 
+6. class suggested [healthdata.org](http://www.healthdata.org), which is associated with the global health data exchange, but provides some doownloading and visualization services.
+
 #Final Thoughts#
 I'll take alook at Central America and the Carribean generally; then pick a country or two that look interesting in terms of CVD/Diabetes and/or trends.
