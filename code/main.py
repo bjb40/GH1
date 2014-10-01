@@ -205,7 +205,7 @@ for n in icd9cvd:
             break
 
 outf = dirs["output"] + "/datfile.csv"
-#write rates to csv
+#write rates to csv - pandas dataframe may be better???
 fnames = dat[0].keys()
 with open(outf,"wb") as f:
     writer = csv.DictWriter(f ,delimiter=',',  fieldnames = fnames)
@@ -228,8 +228,9 @@ subdat2 = subdat[subdat["Country"] == 2045]
 print subdat2["Cause"]
 
 Mx = Scatter(
-    y=subdat2["6064_Mx"],
-    x=subdat["Year"]
+    y=subdat2["5054_Mx"]*10000., #summing across causes 
+    x1=subdat2["Year"]
+    x2=subdat2["Cause"]
 )
 
 
