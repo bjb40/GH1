@@ -262,11 +262,18 @@ Trace4 = Scatter(
  )
 
 
-
 data = Data([Trace1,Trace2,Trace3,Trace4])
-fig = tls.get_subplots(rows=2, columns=2)
+fig=tls.get_subplots(rows=1, columns=2)
+layout = Layout(
+    yaxis1=YAxis(title="50-54 Mx"),
+    yaxis3=YAxis(title="55-59 Mx"),
+    xaxis3=XAxis(title="Male"),
+    xaxis4=XAxis(title="Female"),
+    showlegend=False
+)
 fig['data'] += data
-fig['layout'].update(title='Rates of Cardiac Causes of Death in Belize, 1980-1995')
+fig['layout'].update(layout)
+
 
 plot_url = py.plot(fig, filename='Mx', world_readable=False)
  
