@@ -122,10 +122,39 @@ B30	440-459	Other diseases of the circulatory system
 '''
 
 #Load ICD-10 data for countries
+print "\n\nLoading ICD10 data from '" + dirs["rawdat"] + "'."
 
-#@@@@@@@@@@@@@@@@@@@
-#TO BE DONE SHORTLY
-#@@@@@@@@@@@@@@@@@@@
+#unzip file and read csv
+icd10zip = zipfile.ZipFile(dirs["rawdat"] + "/morticd10.zip")
+icd10raw = icd10zip.open('Morticd10','rU')
+
+#prepare regular expression to catch diseases from I10-I99
+#note that unlike ICD9, there is no entry for Belize regarding all-cause
+cvd10 = re.compile(r'I[1-9]')
+
+icd10cvd = []
+icd10sub = []
+for row in csv.DictReader(icd10raw, delimiter=',', quotechar="'"):
+    for i in countries:
+        if int(row["Country"]) == int(countries[i]):
+            row["Country_Name"] = i
+            icd10sub.append(row)
+            #tabulate heart disease causes
+            if cvd10.search(row["Cause"]):
+                icd10cvd.append(row)
+
+'''
+1064	I00-I99	Diseases of the circulatory system
+1065	I00-I09	Acute rheumatic fever and chronic rheumatic heart diseases
+1066	I10-I13	Hypertensive diseases
+1067	I20-I25	Ischaemic heart diseases
+1068	I26-I51	Other heart diseases
+1069	I60-I69	Cerebrovascular diseases
+1070	I70	Atherosclerosis
+1071	I71-I99	Remainder of diseases of the circulatory system
+
+'''
+
 
 print "\n\nLoading Population data from '" + dirs["rawdat"] + "'."
 #Load population data
@@ -294,6 +323,6 @@ fig['data'] += data
 fig['layout'].update(layout)
 
 
-plot_url = py.plot(fig, filename='Mx', world_readable=False)
+plot_url = py.plot(fig, filename='Global_Health_Fig1', world_readable=False)
  
 #py.image.save_as({'data':data}, dirs["output"] + '/test.png', format='png')
