@@ -228,7 +228,7 @@ years = dat.groupby("Year").groups.keys()
 
 
 Trace1 = Scatter(
-    name = "Female",
+    name = "Female50-54",
     y=groupdat["50-54 Mx"].sum().ix[0:0],
     x=sorted(years, key=int),
     xaxis='x1',
@@ -245,7 +245,7 @@ Trace2 = Scatter(
  )
 
 Trace3 = Scatter(
-    name = "Female",
+    name = "Female55-59",
     y=groupdat["55-59 MX"].sum().ix[0:0],
     x=sorted(years, key=int),
     xaxis='x3',
@@ -261,12 +261,31 @@ Trace4 = Scatter(
     yaxis='y4'
  )
 
+Trace5 = Scatter(
+    name = "Female 60-64",
+    y=groupdat["60-64 Mx"].sum().ix[0:0],
+    x=sorted(years,key=int),
+    xaxis='x5',
+    yaxis='y5'
+)
 
-data = Data([Trace1,Trace2,Trace3,Trace4])
-fig=tls.get_subplots(rows=1, columns=2)
+
+Trace6 = Scatter(
+    name = "Male 60-64",
+    y=groupdat["60-64 Mx"].sum().ix[1:1],
+    x=sorted(years,key=int),
+    xaxis='x6',
+    yaxis='y6'
+)
+
+
+data = Data([Trace1,Trace2,Trace3,Trace4,Trace5,Trace6])
+fig=tls.get_subplots(rows=3, columns=2)
 layout = Layout(
+    title="Figure 1. Rate of Cardiac Deaths Belize, 1980-1995",
     yaxis1=YAxis(title="50-54 Mx"),
     yaxis3=YAxis(title="55-59 Mx"),
+    yaxis5=YAxis(title="60-64 Mx"),
     xaxis3=XAxis(title="Male"),
     xaxis4=XAxis(title="Female"),
     showlegend=False
