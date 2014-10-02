@@ -315,14 +315,14 @@ layout = Layout(
     yaxis1=YAxis(title="50-54 Mx"),
     yaxis3=YAxis(title="55-59 Mx"),
     yaxis5=YAxis(title="60-64 Mx"),
-    xaxis3=XAxis(title="Male"),
-    xaxis4=XAxis(title="Female"),
+    xaxis2=XAxis(title="Male"),
+    xaxis1=XAxis(title="Female"),
     showlegend=False
 )
 fig['data'] += data
 fig['layout'].update(layout)
 
 
-plot_url = py.plot(fig, filename='Global_Health_Fig1', world_readable=False)
+plot_url = py.plot(fig, filename='Mx', world_readable=False)
  
-#py.image.save_as({'data':data}, dirs["output"] + '/test.png', format='png')
+#permalink: https://plot.ly/~bjb40/1/figure-1-rate-of-cardiac-deaths-belize-1980-1995/
