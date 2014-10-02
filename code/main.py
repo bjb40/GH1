@@ -206,6 +206,13 @@ for n in allcvd:
     #input relevant totals, and only retain relevant "upcoding" for top ages based on published formats
     if int(n["Frmat"]) < 4: 
         temp["75 +"] = sumcells([n["Deaths21"],n["Deaths22"],n["Deaths23"],n["Deaths24"],n["Deaths25"]])
+        temp["15-19"] = mf(n["Deaths9"])
+        temp["20-24"] = mf(n["Deaths10"])
+        temp["25-29"] = mf(n["Deaths11"])
+        temp["30-34"] = mf(n["Deaths12"])
+        temp["35-39"] = mf(n["Deaths13"])
+        temp["40-44"] = mf(n["Deaths14"])
+        temp["45-49"] = mf(n["Deaths15"])
         temp["50-54"] = mf(n["Deaths16"])
         temp["55-59"] = mf(n["Deaths17"])
         temp["60-64"] = mf(n["Deaths18"])
@@ -233,61 +240,59 @@ py.sign_in("bjb40", pw)
 #read data from temporary csv and group by 
 
 dat = pd.read_csv(outf)
-years = range(2001,2010)
-groupdat = dat[dat.Year.isin(years)].groupby(["Male","Year","Country"])
+years = dat["Year"].unique()
+groupdat = dat.groupby(["Male","Year","Country"])
 
 #identify groups for figure 1
+yvars = sorted(['15-19','20-24','25-29','30-34','35-39','40-44','45-49','50-54','55-59','60-64','65-69','70-74','75 +'], reverse=True)
 #yvars = sorted(['50-54','55-59','60-64','65-69','70-74','75 +'], reverse=True)
-yvars = sorted(['60-64','65-69','70-74','75 +'], reverse=True)
+#yvars = sorted(['60-64','65-69','70-74','75 +'], reverse=True)
 
 #initialize counter and list for holding trace variables
 c = 0
 traces = []
 
 for i in yvars:
-    traces.append(Scatter(
+    traces.append(Bar(
         name = i + ' Female',
         y = groupdat[i].sum().ix[0:0],
         x = sorted(years, key=int),
-        xaxis='x' + str(c+1),
-        yaxis='y' + str(c+1)
+        xaxis='x1',# + str(c+1),
+        yaxis='y1'# + str(c+1)
     ))
 
     c +=1
 
-    traces.append(Scatter(
+    traces.append(Bar(
         name = i + ' Male',
         y = groupdat[i].sum().ix[1:1],
         x = sorted(years, key=int),
-        xaxis='x' + str(c+1),
-        yaxis='y' + str(c+1)
+        xaxis='x2',# + str(c+1),
+        yaxis='y2'# + str(c+1)
     ))
 
     c += 1
 
     
 data = Data(traces)
-fig=tls.get_subplots(rows=int(len(traces)/2.), columns=2)
+fig=tls.get_subplots(rows=1, columns=2)
 layout = Layout(
-#    title="Figure 1. Number of Cardiac Deaths Belize, 1980-1995",
-    yaxis1=YAxis(title="75 +"),
-    yaxis3=YAxis(title="70-74"),
-    yaxis5=YAxis(title="65-69"),
-    yaxis7=YAxis(title="60-64"),
-#    yaxis9=YAxis(title="55-59"),
- #   yaxis11=YAxis(title="50-54"),
+    barmode='stack',
+    title="CVD Deaths in Belize, 1980-2009",
+    yaxis1=YAxis(range=[0,350]),
+    yaxis2=YAxis(range=[0,350]),
     xaxis2=XAxis(title="Male"),
     xaxis1=XAxis(title="Female"),
-    showlegend=False
+#    showlegend=False
 )
 fig['data'] += data
 fig['layout'].update(layout)
 
 
-plot_url = py.plot(fig, filename='Belize CVD Deaths', world_readable=False)
+plot_url = py.plot(fig, filename='Belize CVD Deaths-Bar', world_readable=False)
  
-#permalink: https://plot.ly/~bjb40/1/figure-1-rate-of-cardiac-deaths-belize-1980-1995/
-
+#permalink: https://plot.ly/~bjb40/1
+#permaling2: https://plot.ly/~bjb40/4
 
 
 
