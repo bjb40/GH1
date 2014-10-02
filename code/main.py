@@ -9,7 +9,7 @@ This project analyzes NCD burden in select Central American and Carribean countr
 
 '''
 
-#Analysis will use python and R, analyze changing rates of NCDs, and changes in health care institutions/population risk factors (like smoking). Finally, I will include Hierarchical bayesian projections. Code Segments are numbered and outlined by' @@@@.'
+#Analysis will use python and R, analyze changing rates of NCDs, and changes in health care institutions/population risk factors (like smoking). Code Segments are numbered and outlined by' @@@@.'
 
 
 #@@@@@@@@@@@@@@@@@@@@@@@
@@ -156,22 +156,15 @@ for row in csv.DictReader(icd10raw, delimiter=',', quotechar="'"):
 '''
 
 
-print "\n\nLoading Population data from '" + dirs["rawdat"] + "'."
-#Load population data
-popzip = zipfile.ZipFile(dirs["rawdat"] + "/Pop.zip")
-popraw = popzip.open('pop','rU')
+print "\n\nMerging ICD9 and ICD10 data."
 
-popsub = []
-for row in csv.DictReader(popraw):
-    for i in countries:
-        if int(row["Country"]) == int(countries[i]):
-            popsub.append(row)
+#Merge ICD9 and ICD10 cvd data and clean data
 
+allcvd = icd9cvd + icd10cvd
 
-#calculate rates from disparate lists by first iterating over db
-print "\n\n Calculating Rates . . ."
-
+#prepare functions to assist cleaning data
 #NOTE - for countries with an admin or subdiv content, the code needs to be edited to take into consideration
+
 def mf(cell):
     '''Checks for missing, assigns -9 to missing otherwise converts to float'''
     if cell.isdigit():
@@ -200,39 +193,23 @@ def sumcells(vals):
     return(tot)
 
 dat = []
-for n in icd9cvd:
+for n in allcvd:
     temp = {}
-    for d in popsub:
-        if n["Country"] == d["Country"] and n["Year"] == d["Year"] and n["Sex"] ==  d["Sex"]:
-            #select and clean variables
-            temp["Country_Name"] = n["Country_Name"]
-            temp["Country"] = n["Country"]
-            temp["Year"] = n["Year"]
-            if int(n["Sex"]) == 1:
-                temp["Male"] = 1
-            else:
-                temp["Male"] = 0
-            if int(n["Frmat"]) < 4 and int(d["Frmat"]) < 4: 
-                temp["DeathsLAST"] = sumcells([n["Deaths21"],n["Deaths22"],n["Deaths23"],n["Deaths24"],n["Deaths25"]])
-                temp["PopLAST"] = sumcells([d["Pop21"],d["Pop22"],d["Pop23"],d["Pop24"],d["Pop25"]])
-                temp["Cause"] = n["Cause"]
-                temp["15-19 Mx"] = rate(n["Deaths9"],d["Pop9"])
-                temp["20-24 Mx"] = rate(n["Deaths10"],d["Pop10"])
-                temp["25-29 Mx"] = rate(n["Deaths11"],d["Pop11"])
-                temp["30-34 Mx"] = rate(n["Deaths12"],d["Pop12"])
-                temp["35-39 Mx"] = rate(n["Deaths13"],d["Pop13"])
-                temp["40-44 Mx"] = rate(n["Deaths14"],d["Pop14"])
-                temp["45-49 Mx"] = rate(n["Deaths15"],d["Pop15"])
-                temp["50-54 Mx"] = rate(n["Deaths16"],d["Pop16"])
-                temp["55-59 MX"] = rate(n["Deaths17"],d["Pop17"])
-                temp["60-64 Mx"] = rate(n["Deaths18"],d["Pop18"])
-                temp["65-69 Mx"] = rate(n["Deaths19"],d["Pop19"])
-                temp["70-74 Mx"] = rate(n["Deaths20"],d["Pop20"])
-                temp["75+ Mx"] = rate(temp["DeathsLAST"],temp["PopLAST"])
- #           keepvals = n.update(d)
- #           if re.search(r"Deaths|Pop",)
-            dat.append(temp)
-            break
+    temp["Country_Name"] = n["Country_Name"]
+    temp["Country"] = n["Country"]
+    temp["Year"] = n["Year"]
+    temp["Cause"] = n["Cause"]
+    if int(n["Sex"]) == 1:
+        temp["Male"] = 1
+    else:
+        temp["Male"] = 0
+    if int(n["Frmat"]) < 4: 
+        temp["75 +"] = sumcells([n["Deaths21"],n["Deaths22"],n["Deaths23"],n["Deaths24"],n["Deaths25"]])
+        temp["50-54"] = mf(n["Deaths16"])
+        temp["55-59"] = mf(n["Deaths17"])
+        temp["60-64"] = mf(n["Deaths18"])
+        temp["65-69"] = mf(n["Deaths19"])
+        temp["70-74"] = mf(n["Deaths20"])
 
 outf = dirs["output"] + "/datfile.csv"
 #write rates to csv - pandas dataframe may be better???
