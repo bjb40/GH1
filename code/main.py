@@ -21,6 +21,7 @@ import pandas as pd
 import numpy as np
 import scipy as sp
 import plotly.plotly as py
+import plotly.tools as tls
 from plotly.graph_objs import *
 
 
@@ -53,7 +54,7 @@ else:
 countries = {
 #"Mexico":2310,
 "Belize":2045,
-"Guatemala":2250,
+#"Guatemala":2250,
 #"Honduras":2280, 
 #"El Salvador":2190,
 #"Nicaragua":2340,
@@ -221,19 +222,52 @@ f.close()
 pw = str(raw_input("Plot.ly sign in key: "))
 py.sign_in("bjb40", pw)
 
-dat = np.genfromtxt(outf,delimiter=",", names=True, dtype=None)
-subdat = dat[dat["Male"] == 1]
-subdat2 = subdat[subdat["Country"] == 2045]
-
-print subdat2["Cause"]
-
-Mx = Scatter(
-    y=subdat2["5054_Mx"]*10000., #summing across causes 
-    x1=subdat2["Year"]
-    x2=subdat2["Cause"]
-)
+dat = pd.read_csv(outf)
+groupdat = dat.groupby(["Male","Year"])
+years = dat.groupby("Year").groups.keys()
 
 
-data = Data([Mx])
+Trace1 = Scatter(
+    name = "Female",
+    y=groupdat["50-54 Mx"].sum().ix[0:0],
+    x=sorted(years, key=int),
+    xaxis='x1',
+    yaxis='y1'
+ )
 
-plot_url = py.plot(data, filename='Mx', world_readable=False)
+
+Trace2 = Scatter(
+    name = "Male",
+    y=groupdat["50-54 Mx"].sum().ix[1:1],
+    x=sorted(years,key=int),
+    xaxis='x2',
+    yaxis='y2'
+ )
+
+Trace3 = Scatter(
+    name = "Female",
+    y=groupdat["55-59 MX"].sum().ix[0:0],
+    x=sorted(years, key=int),
+    xaxis='x3',
+    yaxis='y3'
+ )
+
+
+Trace4 = Scatter(
+    name = "Male",
+    y=groupdat["55-59 MX"].sum().ix[1:1],
+    x=sorted(years,key=int),
+    xaxis='x4',
+    yaxis='y4'
+ )
+
+
+
+data = Data([Trace1,Trace2,Trace3,Trace4])
+fig = tls.get_subplots(rows=2, columns=2)
+fig['data'] += data
+fig['layout'].update(title='Rates of Cardiac Causes of Death in Belize, 1980-1995')
+
+plot_url = py.plot(fig, filename='Mx', world_readable=False)
+ 
+#py.image.save_as({'data':data}, dirs["output"] + '/test.png', format='png')
