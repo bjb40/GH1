@@ -203,6 +203,7 @@ for n in allcvd:
         temp["Male"] = 1
     else:
         temp["Male"] = 0
+    #input relevant totals, and only retain relevant "upcoding" for top ages based on published formats
     if int(n["Frmat"]) < 4: 
         temp["75 +"] = sumcells([n["Deaths21"],n["Deaths22"],n["Deaths23"],n["Deaths24"],n["Deaths25"]])
         temp["50-54"] = mf(n["Deaths16"])
@@ -210,6 +211,7 @@ for n in allcvd:
         temp["60-64"] = mf(n["Deaths18"])
         temp["65-69"] = mf(n["Deaths19"])
         temp["70-74"] = mf(n["Deaths20"])
+    dat.append(temp)
 
 outf = dirs["output"] + "/datfile.csv"
 #write rates to csv - pandas dataframe may be better???
@@ -222,76 +224,56 @@ with open(outf,"wb") as f:
 f.close()
 
 #@@@@@@@@@@@@@@@@@@@@@@@
-#3 Analyze data from working dataset (can be used solely from import)
+#3 Analyze data from working dataset (can be run solely from import)
 #@@@@@@@@@@@@@@@@@@@@@@@
 
 pw = str(raw_input("Plot.ly sign in key: "))
 py.sign_in("bjb40", pw)
 
+#read data from temporary csv and group by 
 dat = pd.read_csv(outf)
-groupdat = dat.groupby(["Male","Year"])
+groupdat = dat.groupby(["Male","Year","Country"])
+
+#identify groups for figure 1
 years = dat.groupby("Year").groups.keys()
+yvars = sorted(['50-54','55-59','60-64','65-69','70-74','75 +'], reverse=True)
 
+#initialize counter and list for holding trace variables
+c = 0
+traces = []
 
-Trace1 = Scatter(
-    name = "Female50-54",
-    y=groupdat["50-54 Mx"].sum().ix[0:0],
-    x=sorted(years, key=int),
-    xaxis='x1',
-    yaxis='y1'
- )
+for i in yvars:
+    traces.append(Scatter(
+        name = i + ' Female',
+        y = groupdat[i].sum().ix[0:0],
+        x = sorted(years, key=int),
+        xaxis='x' + str(c+1),
+        yaxis='y' + str(c+1)
+    ))
 
+    c +=1
 
-Trace2 = Scatter(
-    name = "Male",
-    y=groupdat["50-54 Mx"].sum().ix[1:1],
-    x=sorted(years,key=int),
-    xaxis='x2',
-    yaxis='y2'
- )
+    traces.append(Scatter(
+        name = i + ' Male',
+        y = groupdat[i].sum().ix[1:1],
+        x = sorted(years, key=int),
+        xaxis='x' + str(c+1),
+        yaxis='y' + str(c+1)
+    ))
 
-Trace3 = Scatter(
-    name = "Female55-59",
-    y=groupdat["55-59 MX"].sum().ix[0:0],
-    x=sorted(years, key=int),
-    xaxis='x3',
-    yaxis='y3'
- )
+    c += 1
 
-
-Trace4 = Scatter(
-    name = "Male",
-    y=groupdat["55-59 MX"].sum().ix[1:1],
-    x=sorted(years,key=int),
-    xaxis='x4',
-    yaxis='y4'
- )
-
-Trace5 = Scatter(
-    name = "Female 60-64",
-    y=groupdat["60-64 Mx"].sum().ix[0:0],
-    x=sorted(years,key=int),
-    xaxis='x5',
-    yaxis='y5'
-)
-
-
-Trace6 = Scatter(
-    name = "Male 60-64",
-    y=groupdat["60-64 Mx"].sum().ix[1:1],
-    x=sorted(years,key=int),
-    xaxis='x6',
-    yaxis='y6'
-)
-
-
-data = Data([Trace1,Trace2,Trace3,Trace4,Trace5,Trace6])
-fig=tls.get_subplots(rows=3, columns=2)
+    
+data = Data(traces)
+fig=tls.get_subplots(rows=int(len(traces)/2.), columns=2)
 layout = Layout(
-    title="Figure 1. Rate of Cardiac Deaths Belize, 1980-1995",
-    yaxis1=YAxis(title="50-54 Mx"),
-    yaxis3=YAxis(title="55-59 Mx"),
-    yaxis5=YAxis(title="60-64 Mx"),
+#    title="Figure 1. Number of Cardiac Deaths Belize, 1980-1995",
+    yaxis1=YAxis(title="75 +"),
+    yaxis3=YAxis(title="70-74"),
+    yaxis5=YAxis(title="65-69"),
+    yaxis7=YAxis(title="60-64"),
+    yaxis9=YAxis(title="55-59"),
+    yaxis11=YAxis(title="50-54"),
     xaxis2=XAxis(title="Male"),
     xaxis1=XAxis(title="Female"),
     showlegend=False
@@ -300,6 +282,10 @@ fig['data'] += data
 fig['layout'].update(layout)
 
 
-plot_url = py.plot(fig, filename='Mx', world_readable=False)
+plot_url = py.plot(fig, filename='Belize CVD Deaths', world_readable=False)
  
 #permalink: https://plot.ly/~bjb40/1/figure-1-rate-of-cardiac-deaths-belize-1980-1995/
+
+
+
+
