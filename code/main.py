@@ -231,12 +231,14 @@ pw = str(raw_input("Plot.ly sign in key: "))
 py.sign_in("bjb40", pw)
 
 #read data from temporary csv and group by 
+
 dat = pd.read_csv(outf)
-groupdat = dat.groupby(["Male","Year","Country"])
+years = range(2001,2010)
+groupdat = dat[dat.Year.isin(years)].groupby(["Male","Year","Country"])
 
 #identify groups for figure 1
-years = dat.groupby("Year").groups.keys()
-yvars = sorted(['50-54','55-59','60-64','65-69','70-74','75 +'], reverse=True)
+#yvars = sorted(['50-54','55-59','60-64','65-69','70-74','75 +'], reverse=True)
+yvars = sorted(['60-64','65-69','70-74','75 +'], reverse=True)
 
 #initialize counter and list for holding trace variables
 c = 0
@@ -272,8 +274,8 @@ layout = Layout(
     yaxis3=YAxis(title="70-74"),
     yaxis5=YAxis(title="65-69"),
     yaxis7=YAxis(title="60-64"),
-    yaxis9=YAxis(title="55-59"),
-    yaxis11=YAxis(title="50-54"),
+#    yaxis9=YAxis(title="55-59"),
+ #   yaxis11=YAxis(title="50-54"),
     xaxis2=XAxis(title="Male"),
     xaxis1=XAxis(title="Female"),
     showlegend=False
