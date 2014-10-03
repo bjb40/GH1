@@ -244,7 +244,7 @@ years = dat["Year"].unique()
 groupdat = dat.groupby(["Male","Year","Country"])
 
 #identify groups for figure 1
-yvars = sorted(['15-19','20-24','25-29','30-34','35-39','40-44','45-49','50-54','55-59','60-64','65-69','70-74','75 +'], reverse=True)
+yvars = sorted(['30-34','35-39','40-44','45-49','50-54','55-59','60-64','65-69','70-74','75 +'], reverse=True)
 #yvars = sorted(['50-54','55-59','60-64','65-69','70-74','75 +'], reverse=True)
 #yvars = sorted(['60-64','65-69','70-74','75 +'], reverse=True)
 
@@ -275,10 +275,10 @@ for i in yvars:
 
     
 data = Data(traces)
-fig=tls.get_subplots(rows=1, columns=2)
+fig=tls.get_subplots(rows=2, columns=1)
 layout = Layout(
     barmode='stack',
-    title="CVD Deaths in Belize, 1980-2009",
+    title="CVD Deaths in Belize, 1980-2009 from 30 years old by 5-year age groups.",
     yaxis1=YAxis(range=[0,350]),
     yaxis2=YAxis(range=[0,350]),
     xaxis2=XAxis(title="Male"),
